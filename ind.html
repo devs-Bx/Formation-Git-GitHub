@@ -1,0 +1,877 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f3f5f8;
+    color: #202735;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+.hero {
+    background: #172d4d;
+    color: white;
+    padding: 45px max(22px, calc((100% - 900px) / 2));
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.15;
+    margin: 8px 0;
+}
+
+.eyebrow {
+    color: #f59b35;
+    font-size: .75rem;
+    font-weight: bold;
+    letter-spacing: .13em;
+}
+
+.meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.meta span {
+    border: 1px solid #ffffff55;
+    border-radius: 30px;
+    padding: 6px 13px;
+    font-size: .88rem;
+}
+
+main {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 0 18px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e0e5ec;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 18px #172d4d0a;
+}
+
+.identity label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    border: 1px solid #cbd3df;
+    border-radius: 8px;
+    padding: 12px;
+    font: inherit;
+}
+
+textarea {
+    resize: vertical;
+    margin: 10px 0 12px;
+}
+
+input:focus, textarea:focus {
+    outline: 2px solid #f59b35;
+}
+
+.muted {
+    color: #687487;
+    font-size: .94rem;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e8ebf0;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    gap: 15px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.section-heading strong,
+.question h3 span {
+    color: #9b5a0a;
+    background: #fff2df;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: .85rem;
+    white-space: nowrap;
+}
+
+.question {
+    padding: 18px 0;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.question:last-child {
+    border-bottom: 0;
+}
+
+.question h3 {
+    font-size: 1.08rem;
+    margin: 0 0 10px;
+}
+
+pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: #f3f5f8;
+    border: 1px solid #e4e8ee;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: .88rem;
+}
+
+code {
+    font-family: Consolas, monospace;
+}
+
+.mcq-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.mcq-item h3 {
+    font-size: 1rem;
+}
+
+.option {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.option:hover {
+    background: #f6f7f9;
+}
+
+.option input {
+    width: auto;
+    margin-top: 6px;
+    accent-color: #e58a22;
+}
+
+.feedback {
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.correct {
+    background: #e9f7ef;
+    color: #17633a;
+}
+
+.incorrect {
+    background: #fff0ef;
+    color: #9c2c26;
+}
+
+.solution {
+    display: none;
+    background: #f4f7fb;
+    border-left: 4px solid #f0a13b;
+    padding: 14px 16px;
+    margin-top: 12px;
+    border-radius: 0 8px 8px 0;
+}
+
+.solution.visible {
+    display: block;
+}
+
+.solution h4 {
+    margin-top: 0;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 16px;
+    background: #e88925;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    filter: brightness(.95);
+}
+
+button.secondary {
+    background: #e9edf3;
+    color: #26354b;
+}
+
+.results {
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+footer {
+    text-align: center;
+    color: #788395;
+    padding: 20px;
+}
+
+@media(max-width: 600px) {
+    .panel {
+        padding: 17px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .hero {
+        background: white;
+        color: black;
+        padding: 20px 0;
+    }
+
+    main {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .panel {
+        box-shadow: none;
+        border: 0;
+    }
+
+    .solution {
+        display: block !important;
+    }
+
+    .reveal,
+    .results button {
+        display: none;
+    }
+
+    .question {
+        break-inside: avoid;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Épreuve - Programmation par contrat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+    <p class="eyebrow">DEV II · BAC 2</p>
+    <h1>Programmation par contrat</h1>
+    <p>Épreuve d'entraînement interactive</p>
+    <div class="meta">
+        <span>Durée : 1 h 30</span>
+        <span>Note : /20</span>
+    </div>
+</header>
+
+<main>
+
+<section class="panel identity">
+    <label for="student">Nom et prénom</label>
+    <input id="student" type="text" placeholder="Ton nom">
+    <p class="muted">
+        Fais l'épreuve avant de consulter les corrections.
+    </p>
+</section>
+
+<!-- PARTIE A -->
+<section class="panel">
+    <div class="section-heading">
+        <h2>Partie A — QCM</h2>
+        <strong>4 points</strong>
+    </div>
+
+    <div id="mcq"></div>
+</section>
+
+<!-- PARTIE B -->
+<section class="panel">
+    <div class="section-heading">
+        <h2>Partie B — Compléter les contrats</h2>
+        <strong>10 points</strong>
+    </div>
+
+    <article class="question">
+        <h3>5. Contrat de verdict_icmp (3 points)</h3>
+
+        <p>
+            La couche L3 est considérée OK si au moins 50 %
+            des sondes ICMP ont reçu une réponse.
+        </p>
+
+        <pre><code>def verdict_icmp(nb_reponses: int, nb_sondes: int) -> Verdict:
+    """
+    PRE : ...
+
+    POST : ...
+    """</code></pre>
+
+        <textarea id="a5" rows="5"
+        placeholder="Écris la PRE et la POST..."></textarea>
+
+        <button class="secondary reveal" data-target="sol5">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol5">
+            <h4>Correction</h4>
+
+            <pre><code>PRE : nb_sondes > 0 ;
+      0 <= nb_reponses <= nb_sondes.
+
+POST : renvoie Verdict.OK si
+       nb_reponses >= nb_sondes / 2,
+       Verdict.KO sinon.
+       Ne modifie rien.</code></pre>
+
+            <p>
+                « Au moins 50 % » signifie que 50 % exactement
+                donne également OK.
+            </p>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>6. Contrat de retirer_page (3 points)</h3>
+
+        <p>
+            La méthode retire une page du site.
+            La page principale ne peut pas être supprimée.
+            Si aucune page ne porte le nom demandé,
+            une ValueError est levée.
+            En cas d'exception, le site reste inchangé.
+        </p>
+
+        <pre><code>def retirer_page(self, nom: str) -> None:
+    """
+    PRE : ...
+
+    POST : ...
+
+    Exceptions :
+        ...
+    """</code></pre>
+
+        <textarea id="a6" rows="6"
+        placeholder="Complète PRE, POST et Exceptions..."></textarea>
+
+        <button class="secondary reveal" data-target="sol6">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol6">
+            <h4>Correction</h4>
+
+            <pre><code>PRE : aucune.
+
+POST : le site ne contient plus de page nommée nom ;
+       les autres pages et leur ordre sont inchangés.
+
+Exceptions :
+    ValueError si aucune page ne porte ce nom ;
+    ValueError si nom désigne la page principale.
+    Dans ces cas, le site n'est pas modifié.</code></pre>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>7. Contrat de ajouter_page (2 points)</h3>
+
+        <p>
+            La méthode ajoute une page à la fin.
+            Un nom ou une URI déjà utilisés provoquent une ValueError.
+            En cas d'erreur, le site reste inchangé.
+        </p>
+
+        <pre><code>def ajouter_page(self, nom: str, uri: str) -> None:
+    """
+    PRE : ...
+
+    POST : ...
+
+    Exceptions :
+        ...
+    """</code></pre>
+
+        <textarea id="a7" rows="6"
+        placeholder="Complète le contrat..."></textarea>
+
+        <button class="secondary reveal" data-target="sol7">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol7">
+            <h4>Correction</h4>
+
+            <pre><code>PRE : aucune.
+
+POST : la page (nom, uri) est ajoutée à la fin
+       des pages du site ;
+       les pages existantes et leur ordre sont inchangés.
+
+Exceptions :
+    ValueError si une page porte déjà ce nom ;
+    ValueError si une page possède déjà cette URI.
+    Dans ces cas, le site n'est pas modifié.</code></pre>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>8. Contrat de moyenne (2 points)</h3>
+
+        <p>
+            La fonction calcule la moyenne d'une liste de durées.
+            Si la liste est vide, elle lève ValueError.
+        </p>
+
+        <pre><code>def moyenne(durees: list[float]) -> float:
+    """
+    PRE : ...
+
+    POST : ...
+
+    Exceptions :
+        ...
+    """</code></pre>
+
+        <textarea id="a8" rows="6"
+        placeholder="Complète le contrat..."></textarea>
+
+        <button class="secondary reveal" data-target="sol8">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol8">
+            <h4>Correction</h4>
+
+            <pre><code>PRE : aucune.
+
+POST : renvoie la somme des durées divisée
+       par le nombre de durées.
+       Ne modifie rien.
+
+Exceptions :
+    ValueError si durees est vide.</code></pre>
+
+            <p>
+                C'est une précondition faible : la fonction
+                vérifie elle-même le cas de la liste vide.
+            </p>
+        </div>
+    </article>
+</section>
+
+<!-- PARTIE C -->
+<section class="panel">
+    <div class="section-heading">
+        <h2>Partie C — Compréhension</h2>
+        <strong>6 points</strong>
+    </div>
+
+    <article class="question">
+        <h3>9. Fonction pure ou non ? (2 points)</h3>
+
+        <pre><code>def calculer(a, b):
+    return a + b
+
+def afficher(a, b):
+    print(a + b)</code></pre>
+
+        <p>
+            Indique si chaque fonction est pure ou non.
+            Justifie ta réponse.
+        </p>
+
+        <textarea id="a9" rows="4"
+        placeholder="Exemple 1 : ...&#10;Exemple 2 : ..."></textarea>
+
+        <button class="secondary reveal" data-target="sol9">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol9">
+            <h4>Correction</h4>
+
+            <p>
+                <strong>calculer :</strong> fonction pure.
+                Le résultat dépend uniquement des paramètres,
+                les mêmes entrées donnent le même résultat
+                et aucun effet de bord n'est produit.
+            </p>
+
+            <p>
+                <strong>afficher :</strong> fonction non pure.
+                print() produit un effet de bord en affichant
+                une information dans la console.
+            </p>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>10. Les cinq principes de testabilité (2 points)</h3>
+
+        <p>Explique les cinq principes suivants :</p>
+
+        <ul>
+            <li>Contrôlabilité</li>
+            <li>Observabilité</li>
+            <li>Déterminisme</li>
+            <li>Isolation</li>
+            <li>Oracle explicite</li>
+        </ul>
+
+        <textarea id="a10" rows="7"
+        placeholder="Contrôlabilité : ...&#10;Observabilité : ...&#10;Déterminisme : ...&#10;Isolation : ...&#10;Oracle explicite : ..."></textarea>
+
+        <button class="secondary reveal" data-target="sol10">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol10">
+            <h4>Correction</h4>
+
+            <ul>
+                <li><strong>Contrôlabilité :</strong>
+                    placer l'objet dans la situation souhaitée.</li>
+                <li><strong>Observabilité :</strong>
+                    pouvoir lire le résultat produit.</li>
+                <li><strong>Déterminisme :</strong>
+                    mêmes entrées, même résultat.</li>
+                <li><strong>Isolation :</strong>
+                    tester sans dépendre inutilement du réseau
+                    ou de l'interface.</li>
+                <li><strong>Oracle explicite :</strong>
+                    connaître le résultat attendu grâce au contrat.</li>
+            </ul>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>11. Précondition forte et faible (1 point)</h3>
+
+        <p>
+            Quelle est la différence entre une précondition
+            forte et une précondition faible ?
+            Donne un exemple avec moyenne.
+        </p>
+
+        <textarea id="a11" rows="4"
+        placeholder="Ta réponse..."></textarea>
+
+        <button class="secondary reveal" data-target="sol11">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol11">
+            <h4>Correction</h4>
+
+            <p>
+                Une PRE forte impose à l'appelant de respecter
+                une condition avant l'appel.
+            </p>
+
+            <p>
+                Exemple : PRE : durees n'est pas vide.
+            </p>
+
+            <p>
+                Une PRE faible impose moins de contraintes :
+                la méthode gère elle-même le cas problématique.
+            </p>
+
+            <p>
+                Exemple : PRE : aucune, puis ValueError
+                si la liste est vide.
+            </p>
+        </div>
+    </article>
+
+    <article class="question">
+        <h3>12. Séparation interface / métier (1 point)</h3>
+
+        <p>
+            Où placer input(), print() et la logique métier ?
+            Que faire lorsqu'une méthode métier lève une exception ?
+        </p>
+
+        <textarea id="a12" rows="4"
+        placeholder="Ta réponse..."></textarea>
+
+        <button class="secondary reveal" data-target="sol12">
+            Afficher la correction
+        </button>
+
+        <div class="solution" id="sol12">
+            <h4>Correction</h4>
+
+            <p>
+                input() et print() appartiennent à l'interface.
+                Les règles et traitements appartiennent à la partie métier.
+            </p>
+
+            <p>
+                L'interface appelle le métier, récupère les exceptions
+                avec try/except et affiche un message compréhensible.
+            </p>
+        </div>
+    </article>
+</section>
+
+<!-- RESULTATS -->
+<section class="panel results">
+    <h2>Résultat des QCM</h2>
+
+    <p class="muted">
+        La partie A est corrigée automatiquement.
+        Les questions rédigées sont à comparer avec les corrections.
+    </p>
+
+    <button id="grade" type="button">
+        Corriger mes QCM
+    </button>
+
+    <div id="score"></div>
+
+    <div class="actions">
+        <button id="showAll" class="secondary" type="button">
+            Afficher toutes les corrections
+        </button>
+
+        <button id="hideAll" class="secondary" type="button">
+            Masquer toutes les corrections
+        </button>
+
+        <button id="print" class="secondary" type="button">
+            Imprimer / Enregistrer en PDF
+        </button>
+    </div>
+</section>
+
+<footer>
+    Épreuve d'entraînement — Programmation par contrat
+</footer>
+
+</main>
+
+<script>
+
+const questions = [
+    {
+        q: "1. Quel est le rôle principal d'un contrat ?",
+        options: [
+            "Indiquer uniquement le type des paramètres.",
+            "Préciser ce que l'appelant doit garantir et ce que la méthode garantit.",
+            "Remplacer le diagramme de classes.",
+            "Indiquer uniquement les exceptions."
+        ],
+        answer: 1,
+        explanation: "Le contrat définit les responsabilités de l'appelant (PRE) et de la méthode (POST)."
+    },
+    {
+        q: "2. Que décrit une précondition (PRE) ?",
+        options: [
+            "Ce que la méthode garantit après son exécution.",
+            "Ce que l'appelant doit garantir avant l'appel.",
+            "Le résultat affiché à l'écran.",
+            "Une erreur obligatoirement levée."
+        ],
+        answer: 1,
+        explanation: "La PRE décrit les conditions à respecter avant l'appel."
+    },
+    {
+        q: "3. Quelle affirmation décrit une fonction pure ?",
+        options: [
+            "Elle affiche toujours le résultat avec print().",
+            "Elle modifie les paramètres.",
+            "Son résultat dépend uniquement de ses paramètres et elle n'a pas d'effet de bord.",
+            "Elle utilise obligatoirement une base de données."
+        ],
+        answer: 2,
+        explanation: "Une fonction pure est déterministe et ne produit pas d'effet de bord."
+    },
+    {
+        q: "4. Quels sont les cinq principes de testabilité ?",
+        options: [
+            "Contrôlabilité, observabilité, déterminisme, isolation et oracle explicite.",
+            "Compilation, affichage, réseau, mémoire et vitesse.",
+            "PRE, POST, classe, objet et héritage.",
+            "Interface, navigateur, serveur et base de données."
+        ],
+        answer: 0,
+        explanation: "Ce sont les cinq principes de testabilité du cours."
+    }
+];
+
+const mcq = document.getElementById("mcq");
+
+questions.forEach((question, index) => {
+    const article = document.createElement("article");
+    article.className = "mcq-item";
+
+    const title = document.createElement("h3");
+    title.textContent = question.q + " (1 point)";
+    article.appendChild(title);
+
+    question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        label.className = "option";
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "question" + index;
+        input.value = optionIndex;
+
+        const text = document.createElement("span");
+        text.textContent =
+            String.fromCharCode(65 + optionIndex) + ". " + option;
+
+        label.append(input, text);
+        article.appendChild(label);
+    });
+
+    const feedback = document.createElement("div");
+    feedback.className = "feedback";
+    feedback.id = "feedback" + index;
+    feedback.hidden = true;
+
+    article.appendChild(feedback);
+    mcq.appendChild(article);
+});
+
+// Afficher ou masquer une correction
+document.querySelectorAll(".reveal").forEach(button => {
+    button.addEventListener("click", () => {
+        const solution = document.getElementById(
+            button.dataset.target
+        );
+
+        solution.classList.toggle("visible");
+
+        button.textContent =
+            solution.classList.contains("visible")
+                ? "Masquer la correction"
+                : "Afficher la correction";
+    });
+});
+
+// Correction automatique des QCM
+document.getElementById("grade").addEventListener("click", () => {
+    let score = 0;
+
+    questions.forEach((question, index) => {
+        const selected = document.querySelector(
+            `input[name="question${index}"]:checked`
+        );
+
+        const feedback = document.getElementById(
+            "feedback" + index
+        );
+
+        feedback.hidden = false;
+
+        if (selected && Number(selected.value) === question.answer) {
+            score++;
+
+            feedback.className = "feedback correct";
+            feedback.textContent =
+                "Bonne réponse ! " + question.explanation;
+        } else {
+            feedback.className = "feedback incorrect";
+
+            feedback.textContent =
+                "Réponse attendue : " +
+                String.fromCharCode(65 + question.answer) +
+                ". " +
+                question.options[question.answer] +
+                ". " +
+                question.explanation;
+        }
+    });
+
+    document.getElementById("score").textContent =
+        "Ton score aux QCM : " + score + " / 4";
+});
+
+// Afficher toutes les corrections
+document.getElementById("showAll").addEventListener("click", () => {
+    document.querySelectorAll(".solution").forEach(solution => {
+        solution.classList.add("visible");
+    });
+
+    document.querySelectorAll(".reveal").forEach(button => {
+        button.textContent = "Masquer la correction";
+    });
+});
+
+// Masquer toutes les corrections
+document.getElementById("hideAll").addEventListener("click", () => {
+    document.querySelectorAll(".solution").forEach(solution => {
+        solution.classList.remove("visible");
+    });
+
+    document.querySelectorAll(".reveal").forEach(button => {
+        button.textContent = "Afficher la correction";
+    });
+});
+
+// Imprimer ou enregistrer en PDF
+document.getElementById("print").addEventListener("click", () => {
+    window.print();
+});
+
+</script>
+</body>
+</html>
